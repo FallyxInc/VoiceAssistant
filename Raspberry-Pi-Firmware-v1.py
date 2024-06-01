@@ -9,6 +9,27 @@ import requests
 
 app = Flask(__name__)
 
+def call_emergency():
+    print("Calling emergency staff, hang tight and remain calm.")
+    try:
+        tts = gTTS(text="Calling emergency staff, hang tight and remain calm.", lang='en')
+        tts.save("emergency_call.mp3")
+        subprocess.run(["ffmpeg", "-y", "-i", "emergency_call.mp3", "-af", "volume=0.1", "emergency_call.wav"], check=True)
+        subprocess.run(["paplay", "emergency_call.wav"], check=True)
+    except Exception as e:
+        print(f"Error during TTS playback: {e}")
+
+    url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        "emergencyPhoneNumber": "+16476772046",
+        "emergencyFirstname": "Clay",
+        "userFirstName": "Clay",
+        "userLastName": ""
+    }
+    response = requests.post(url, json=data, headers=headers)
+    print(f"Emergency request sent, response status code: {response.status_code}")
+
 @app.route('/fall', methods=['POST'])
 def fall_detected():
     try:
@@ -25,7 +46,7 @@ def fall_detected():
         subprocess.run(["paplay", "did_you_fall.wav"], check=True)
         print("Played did_you_fall.wav")
 
-        # Record audio for 15 seconds
+        # Record audio for 10 seconds
         CHUNK = 1024
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
@@ -41,7 +62,7 @@ def fall_detected():
                         input=True,
                         frames_per_buffer=CHUNK)
 
-        print("Recording audio for 15 seconds...")
+        print("Recording audio for 10 seconds...")
 
         frames = []
 
@@ -117,16 +138,7 @@ def fall_detected():
 
         except sr.UnknownValueError:
             print("No or minimal input detected. Sending emergency request.")
-            url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
-            headers = {'Content-Type': 'application/json'}
-            data = {
-                "emergencyPhoneNumber": "+16476772046",
-                "emergencyFirstname": "Clay",
-                "userFirstName": "Clay",
-                "userLastName": ""
-            }
-            response = requests.post(url, json=data, headers=headers)
-            print(f"Emergency request sent, response status code: {response.status_code}")
+            call_emergency()
         except sr.RequestError as e:
             print(f"Could not request results from Google Speech Recognition service; {e}")
 
