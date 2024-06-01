@@ -104,6 +104,10 @@ def fall_detected():
                 print(f"Emergency request sent, response status code: {response.status_code}")
             elif any(no_word in text for no_word in no_variations):
                 print("No emergency, user confirmed they are okay.")
+                tts = gTTS(text="Okay, sorry to disturb you. Enjoy the rest of your day.", lang='en')
+                tts.save("no_emergency.mp3")
+                subprocess.run(["ffmpeg", "-y", "-i", "no_emergency.mp3", "-af", "volume=0.1", "no_emergency.wav"], check=True)
+                subprocess.run(["paplay", "no_emergency.wav"], check=True)
             else:
                 raise sr.UnknownValueError("Unrecognized response")
 
