@@ -13,6 +13,11 @@ def fall_detected():
         tts.save("did_you_fall.mp3")
         print("TTS generated and saved as did_you_fall.mp3")
 
+        # Remove existing wav file if it exists
+        if os.path.exists("did_you_fall.wav"):
+            os.remove("did_you_fall.wav")
+            print("Existing did_you_fall.wav removed")
+
         # Convert mp3 to wav using ffmpeg
         subprocess.run(["ffmpeg", "-i", "did_you_fall.mp3", "did_you_fall.wav"], check=True)
         print("Converted did_you_fall.mp3 to did_you_fall.wav")
