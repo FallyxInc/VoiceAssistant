@@ -68,11 +68,45 @@ def fall_detected():
             audio = recognizer.record(source)
 
         try:
-            text = recognizer.recognize_google(audio)
+            text = recognizer.recognize_google(audio).lower()
             print("Transcription: " + text)
-            # Check if transcription is minimal
-            if len(text.strip()) < 10:  # Adjust the threshold as needed
-                raise sr.UnknownValueError("Minimal input detected")
+
+            # Define variations of "yes" and "no"
+            yes_variations = [
+                "yes", "i fell", "help", "i need help", "assistance", "i'm down", "i have fallen", 
+                "i can't get up", "emergency", "fallen", "down", "not okay", "hurt", "injured", 
+                "accident", "help me", "can't stand", "need assistance", "urgent", "please help",
+                "i'm on the ground", "can't move", "in pain", "i need aid", "assist me", "i'm stuck",
+                "need help", "please assist", "get help", "i'm in trouble", "i need support", "i'm hurt",
+                "please hurry", "i'm in distress", "medical emergency"
+            ]
+
+            no_variations = [
+                "no", "i'm okay", "fine", "all good", "no fall", "didn't fall", "okay", "all right", 
+                "no help", "no issue", "no problem", "nothing happened", "i'm fine", "no need", 
+                "no assistance", "safe", "unharmed", "good", "all clear", "no thanks",
+                "i'm alright", "everything's fine", "not hurt", "not injured", "no damage", "no worries",
+                "i'm good", "don't need help", "no concern", "all is well", "not necessary", "no need for help",
+                "not required", "no harm", "everything's okay"
+            ]
+
+            if any(yes_word in text for yes_word in yes_variations):
+                # Send emergency request
+                url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
+                headers = {'Content-Type': 'application/json'}
+                data = {
+                    "emergencyPhoneNumber": "+16476772046",
+                    "emergencyFirstname": "Clay",
+                    "userFirstName": "Clay",
+                    "userLastName": ""
+                }
+                response = requests.post(url, json=data, headers=headers)
+                print(f"Emergency request sent, response status code: {response.status_code}")
+            elif any(no_word in text for no_word in no_variations):
+                print("No emergency, user confirmed they are okay.")
+            else:
+                raise sr.UnknownValueError("Unrecognized response")
+
         except sr.UnknownValueError:
             print("No or minimal input detected. Sending emergency request.")
             url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
