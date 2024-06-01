@@ -17,7 +17,7 @@ def fall_detected():
         print("TTS generated and saved as did_you_fall.mp3")
 
         # Convert mp3 to wav using ffmpeg and adjust volume to 75%
-        subprocess.run(["ffmpeg", "-y", "-i", "did_you_fall.mp3", "-af", "volume=0.75", "did_you_fall.wav"], check=True)
+        subprocess.run(["ffmpeg", "-y", "-i", "did_you_fall.mp3", "-af", "volume=0.25", "did_you_fall.wav"], check=True)
         print("Converted did_you_fall.mp3 to did_you_fall.wav at 75% volume")
 
         # Play the wav file
