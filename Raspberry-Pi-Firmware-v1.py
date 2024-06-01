@@ -5,6 +5,7 @@ import subprocess
 import pyaudio
 import wave
 import speech_recognition as sr
+import requests
 
 app = Flask(__name__)
 
@@ -16,9 +17,9 @@ def fall_detected():
         tts.save("did_you_fall.mp3")
         print("TTS generated and saved as did_you_fall.mp3")
 
-        # Convert mp3 to wav using ffmpeg and adjust volume to 75%
-        subprocess.run(["ffmpeg", "-y", "-i", "did_you_fall.mp3", "-af", "volume=0.05", "did_you_fall.wav"], check=True)
-        print("Converted did_you_fall.mp3 to did_you_fall.wav at 75% volume")
+        # Convert mp3 to wav using ffmpeg and adjust volume to 10%
+        subprocess.run(["ffmpeg", "-y", "-i", "did_you_fall.mp3", "-af", "volume=0.1", "did_you_fall.wav"], check=True)
+        print("Converted did_you_fall.mp3 to did_you_fall.wav at 10% volume")
 
         # Play the wav file
         subprocess.run(["paplay", "did_you_fall.wav"], check=True)
@@ -69,8 +70,21 @@ def fall_detected():
         try:
             text = recognizer.recognize_google(audio)
             print("Transcription: " + text)
+            # Check if transcription is minimal
+            if len(text.strip()) < 10:  # Adjust the threshold as needed
+                raise sr.UnknownValueError("Minimal input detected")
         except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand the audio")
+            print("No or minimal input detected. Sending emergency request.")
+            url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
+            headers = {'Content-Type': 'application/json'}
+            data = {
+                "emergencyPhoneNumber": "+16476772046",
+                "emergencyFirstname": "Clay",
+                "userFirstName": "Clay",
+                "userLastName": ""
+            }
+            response = requests.post(url, json=data, headers=headers)
+            print(f"Emergency request sent, response status code: {response.status_code}")
         except sr.RequestError as e:
             print(f"Could not request results from Google Speech Recognition service; {e}")
 
