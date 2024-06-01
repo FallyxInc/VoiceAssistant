@@ -1,9 +1,68 @@
-from flask import Flask, request
+from flask import Flask, request, render_template_string
 from gtts import gTTS
 import os
 import subprocess
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template_string('''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fall Detection</title>
+</head>
+<body>
+    <h1>Fall Detection</h1>
+    <button onclick="playMessage()">Start</button>
+    <div id="transcription"></div>
+
+    <script>
+        function playMessage() {
+            fetch('/fall', {method: 'POST'})
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    startRecording();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function startRecording() {
+            let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onstart = function() {
+                console.log('Recording started');
+                setTimeout(() => {
+                    recognition.stop();
+                }, 15000); // Stop recording after 15 seconds
+            };
+
+            recognition.onresult = function(event) {
+                let transcript = '';
+                for (let i = 0; i < event.results.length; ++i) {
+                    transcript += event.results[i][0].transcript;
+                }
+                document.getElementById('transcription').innerText = transcript;
+                console.log('Transcription: ', transcript);
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Error occurred in recognition: ', event.error);
+            };
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html>
+''')
 
 @app.route('/fall', methods=['POST'])
 def fall_detected():
@@ -32,7 +91,7 @@ def fall_detected():
     except Exception as e:
         print(f"Error: {e}")
 
-    return 'Sound played', 200
+    return jsonify({"message": "Sound played, start recording"}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
