@@ -102,6 +102,10 @@ def fall_detected():
                 }
                 response = requests.post(url, json=data, headers=headers)
                 print(f"Emergency request sent, response status code: {response.status_code}")
+                tts = gTTS(text="Ok don't worry, the nurse is coming to help you. Please remain calm.", lang='en')
+                tts.save("emergency.mp3")
+                subprocess.run(["ffmpeg", "-y", "-i", "emergency.mp3", "-af", "volume=0.1", "emergency.wav"], check=True)
+                subprocess.run(["paplay", "emergency.wav"], check=True)
             elif any(no_word in text for no_word in no_variations):
                 print("No emergency, user confirmed they are okay.")
                 tts = gTTS(text="Okay, sorry to disturb you. Enjoy the rest of your day.", lang='en')
