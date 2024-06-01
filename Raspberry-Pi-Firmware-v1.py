@@ -9,7 +9,7 @@ app = Flask(__name__)
 def fall_detected():
     try:
         # Generate speech
-        tts = gTTS(text="Did you fall?", lang='en')
+        tts = gTTS(text="Hey there, did you fall? If you fell, please say yes multiple times. If you're okay, say no multiple times.", lang='en')
         tts.save("did_you_fall.mp3")
         print("TTS generated and saved as did_you_fall.mp3")
 
