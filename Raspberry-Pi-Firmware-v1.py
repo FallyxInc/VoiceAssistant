@@ -10,6 +10,7 @@ import threading
 import time
 
 app = Flask(__name__)
+EMERGENCYNUMBER = "+14166299094"
 
 def handle_fall_detection():
     try:
@@ -96,8 +97,8 @@ def handle_fall_detection():
                 url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
                 headers = {'Content-Type': 'application/json'}
                 data = {
-                    "emergencyPhoneNumber": "+16476772046",
-                    "emergencyFirstname": "Clay",
+                    "emergencyPhoneNumber": EMERGENCYNUMBER,
+                    "emergencyFirstname": "SRR",
                     "userFirstName": "Clay",
                     "userLastName": ""
                 }
@@ -121,8 +122,8 @@ def handle_fall_detection():
             url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
             headers = {'Content-Type': 'application/json'}
             data = {
-                "emergencyPhoneNumber": "+16476772046",
-                "emergencyFirstname": "Clay",
+                "emergencyPhoneNumber": EMERGENCYNUMBER,
+                "emergencyFirstname": "SRR",
                 "userFirstName": "Clay",
                 "userLastName": ""
             }
