@@ -10,7 +10,7 @@ import threading
 import time
 
 app = Flask(__name__)
-EMERGENCYNUMBER = "+14166299094"
+EMERGENCYNUMBER = "+16476772046"
 
 def handle_fall_detection():
     try:
