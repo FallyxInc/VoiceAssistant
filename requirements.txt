@@ -3,3 +3,6 @@ gtts
 pyaudio
 SpeechRecognition
 requests
+simpleaudio
+psutil
+paho-mqtt

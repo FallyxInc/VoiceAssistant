@@ -253,4 +253,3 @@ def log_memory_usage():
 while True:
     time.sleep(1)  # Log memory usage every second
     log_memory_usage()
-ᐧ
