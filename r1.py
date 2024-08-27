@@ -14,7 +14,7 @@ import simpleaudio as sa
 
 # MQTT and Thingsboard configuration
 thingsboard_host = "3.99.30.21"
-ACCESS_TOKEN = "3iGKyFyNrPgCmVY6ppBW"
+ACCESS_TOKEN = "WhOqg84cFZNwyjrOsPky"
 EMERGENCYNUMBER = "+16476772046"
 
 # Initialize MQTT client
