@@ -1,0 +1,10 @@
+[2025-05-09 10:15:34] === Starting new interaction ===
+[2025-05-09 10:15:34] Starting audio recording
+[2025-05-09 10:15:39] Audio recording saved to run_20250509_101534/response.wav
+[2025-05-09 10:15:39] Starting audio transcription
+[2025-05-09 10:15:40] Transcription: Hi, did you fall? No, I did not, you dickhead.
+[2025-05-09 10:15:40] Starting intent classification
+[2025-05-09 10:15:40] Detected intent: not_ok
+[2025-05-09 10:15:40] Action: Emergency confirmed - Help needed
+[2025-05-09 10:15:40] === Interaction complete ===
+
