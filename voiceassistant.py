@@ -6,9 +6,13 @@ import os
 import time
 import threading
 from datetime import datetime
+import requests
 
 # OpenAI API Key
 openai.api_key = "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"
+
+# Emergency number configuration
+EMERGENCYNUMBER = "+14166299094"
 
 def create_run_folder():
     # Create runs directory if it doesn't exist
@@ -109,6 +113,19 @@ Only return one of: ok, not_ok, unclear.
     print("Detected intent:", intent)
     return intent
 
+def call_for_help():
+    url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        "emergencyPhoneNumber": EMERGENCYNUMBER,
+        "emergencyFirstname": "SRR",
+        "userFirstName": "Clay",
+        "userLastName": ""
+    }
+    response = requests.post(url, json=data, headers=headers)
+    print(f"Emergency request sent, response status code: {response.status_code}")
+    return response.status_code
+
 # Determine if the user is ok or not based on the interaction
 def main():
     # Create a new folder for this run
@@ -130,6 +147,9 @@ def main():
         log_interaction("Action: Emergency confirmed - Help needed", run_folder)
         print("Emergency confirmed! Calling for help.")
         play_response_audio(intent)
+        # Call emergency number
+        status_code = call_for_help()
+        log_interaction(f"Emergency call initiated with status code: {status_code}", run_folder)
     else:
         log_interaction("Action: Unclear response - Consider escalation", run_folder)
         print("Unclear. Consider asking again or escalating.")

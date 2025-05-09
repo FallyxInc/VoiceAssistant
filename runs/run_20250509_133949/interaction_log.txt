@@ -1,0 +1,10 @@
+[2025-05-09 13:39:49] === Starting new interaction ===
+[2025-05-09 13:39:49] Starting audio recording
+[2025-05-09 13:39:54] Audio recording saved to runs/run_20250509_133949/response.wav
+[2025-05-09 13:39:54] Starting audio transcription
+[2025-05-09 13:39:56] Transcription: 再開啟爽快音樂 uv节目
+[2025-05-09 13:39:56] Starting intent classification
+[2025-05-09 13:39:57] Detected intent: unclear
+[2025-05-09 13:39:57] Action: Unclear response - Consider escalation
+[2025-05-09 13:39:57] === Interaction complete ===
+
