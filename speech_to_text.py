@@ -11,21 +11,22 @@ from datetime import datetime
 openai.api_key = "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"
 
 def create_run_folder():
-    """Create a folder with timestamp for this run"""
+    # Create runs directory if it doesn't exist
+    os.makedirs("runs", exist_ok=True)
+    
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     folder_name = f"run_{timestamp}"
-    os.makedirs(folder_name, exist_ok=True)
-    return folder_name
+    folder_path = os.path.join("runs", folder_name)
+    os.makedirs(folder_path, exist_ok=True)
+    return folder_path
 
 def log_interaction(message, run_folder):
-    """Log interaction to a file in the run folder"""
     log_file = os.path.join(run_folder, "interaction_log.txt")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(log_file, "a") as f:
         f.write(f"[{timestamp}] {message}\n")
 
 def prepare_audio_recording(fs=44100):
-    """Prepare audio recording settings in advance"""
     sd.default.samplerate = fs
     sd.default.channels = 1
     sd.default.dtype = 'int16'
@@ -39,14 +40,14 @@ def play_audio_file(output_file):
     
     threading.Thread(target=play_audio).start()
 
-def play_prompt(output_file="prompt.mp3"):
+def play_prompt(output_file="audiofiles/prompt.mp3"):
     play_audio_file(output_file)
 
 def play_response_audio(intent):
     if intent == "ok":
-        play_audio_file("false_alarm.mp3")
+        play_audio_file("audiofiles/false_alarm.mp3")
     elif intent == "not_ok":
-        play_audio_file("emergency.mp3")
+        play_audio_file("audiofiles/emergency.mp3")
 
 # Record the response from the user
 def record_audio(run_folder, filename="response.wav", duration=5, fs=44100):

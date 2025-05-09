@@ -1,0 +1,10 @@
+[2025-05-09 10:51:56] === Starting new interaction ===
+[2025-05-09 10:51:56] Starting audio recording
+[2025-05-09 10:52:02] Audio recording saved to runs/run_20250509_105156/response.wav
+[2025-05-09 10:52:02] Starting audio transcription
+[2025-05-09 10:52:03] Transcription: Hi. Changbong Lam, did you fall down? No.
+[2025-05-09 10:52:03] Starting intent classification
+[2025-05-09 10:52:04] Detected intent: ok
+[2025-05-09 10:52:04] Action: False alarm - No action needed
+[2025-05-09 10:52:04] === Interaction complete ===
+
