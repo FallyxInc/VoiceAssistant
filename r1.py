@@ -11,11 +11,16 @@ import wave
 import speech_recognition as sr
 import requests
 import simpleaudio as sa
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # MQTT and Thingsboard configuration
-thingsboard_host = "3.99.30.21"
-ACCESS_TOKEN = "WhOqg84cFZNwyjrOsPky"
-EMERGENCYNUMBER = "+16476772046"
+thingsboard_host = os.getenv('THINGSBOARD_HOST')
+ACCESS_TOKEN = os.getenv('THINGSBOARD_ACCESS_TOKEN')
+EMERGENCYNUMBER = os.getenv('EMERGENCY_NUMBER')
 
 # Initialize MQTT client
 print(f'Connecting to: {thingsboard_host} using access token: {ACCESS_TOKEN}')
@@ -91,7 +96,7 @@ def handle_fall_detection():
         # Record audio for 7 seconds
         if not record_and_analyze_response(7):
             # No significant input detected, play the second message
-            tts_repeat = gTTS(text="Hey Ayaan! I didn’t hear you. Say YES if you need help or NO if you’re okay.", lang='en')
+            tts_repeat = gTTS(text="Hey Ayaan! I didn't hear you. Say YES if you need help or NO if you're okay.", lang='en')
             tts_repeat.save("did_not_hear_you.mp3")
             subprocess.run(["ffmpeg", "-y", "-i", "did_not_hear_you.mp3", "-af", "volume=1.5", "did_not_hear_you.wav"], check=True)
             print("Converted did_not_hear_you.mp3 to did_not_hear_you.wav at 150% volume")
