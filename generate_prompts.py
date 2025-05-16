@@ -1,8 +1,11 @@
 # V2/generate_prompt.py
 import openai
 import os
+from dotenv import load_dotenv
 
-openai.api_key = "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"
+load_dotenv()  # take environment variables from .env.
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def generate_prompt_audio(text="Hi............. **Resident Name. Did    you    fall     down?", output_file="audiofiles/prompt.mp3"):
     response = openai.audio.speech.create(

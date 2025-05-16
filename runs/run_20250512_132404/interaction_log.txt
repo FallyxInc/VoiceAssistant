@@ -1,0 +1,11 @@
+[2025-05-12 13:24:04] === Starting new interaction ===
+[2025-05-12 13:24:04] Starting audio recording
+[2025-05-12 13:24:09] Audio recording saved to runs/run_20250512_132404/response.wav
+[2025-05-12 13:24:09] Starting audio transcription
+[2025-05-12 13:24:10] Transcription: Hi, resident name. Did you fall down? Yep.
+[2025-05-12 13:24:10] Starting intent classification
+[2025-05-12 13:24:11] Detected intent: not_ok
+[2025-05-12 13:24:11] Action: Emergency confirmed - Help needed
+[2025-05-12 13:24:14] Emergency call initiated with status code: 200
+[2025-05-12 13:24:14] === Interaction complete ===
+

@@ -7,9 +7,11 @@ import time
 import threading
 from datetime import datetime
 import requests
+from dotenv import load_dotenv
 
-# OpenAI API Key
-openai.api_key = "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"
+load_dotenv() 
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Emergency number configuration
 EMERGENCYNUMBER = "+14166299094"
