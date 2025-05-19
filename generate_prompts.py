@@ -37,7 +37,18 @@ def generate_false_alarm_audio(text="I'm so sorry to disturb you, I just wanted 
         f.write(response.content)
     print(f"Generated audio file: {output_file}")
 
+def generate_unclear_response_audio(text="I didn't quite understand. Could you please tell me if you fell down or not? I just want to make sure you're safe.", output_file="audiofiles/unclear_response.mp3"):
+    response = openai.audio.speech.create(
+        model="tts-1-hd",
+        voice="shimmer",
+        input=text
+    )
+    with open(output_file, "wb") as f:
+        f.write(response.content)
+    print(f"Generated audio file: {output_file}")
+
 if __name__ == "__main__":
     generate_prompt_audio()
     generate_emergency_audio()
     generate_false_alarm_audio()
+    generate_unclear_response_audio()

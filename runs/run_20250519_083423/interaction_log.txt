@@ -1,0 +1,8 @@
+[2025-05-19 08:34:23] === Starting new interaction ===
+[2025-05-19 08:34:23] Starting audio recording
+[2025-05-19 08:34:29] Audio recording saved to runs/run_20250519_083423/response.wav
+[2025-05-19 08:34:29] Starting audio transcription
+[2025-05-19 08:34:31] Transcription: Hi, President Name, did you fall down? Yep.
+[2025-05-19 08:34:31] Starting intent classification
+[2025-05-19 08:34:31] Detected intent: not_ok
+[2025-05-19 08:34:31] Action: Emergency confirmed - Help needed

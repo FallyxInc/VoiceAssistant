@@ -13,9 +13,6 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Emergency number configuration
-EMERGENCYNUMBER = "+14166299094"
-
 def create_run_folder():
     # Create runs directory if it doesn't exist
     os.makedirs("runs", exist_ok=True)
@@ -54,9 +51,11 @@ def play_response_audio(intent):
         play_audio_file("audiofiles/false_alarm.mp3")
     elif intent == "not_ok":
         play_audio_file("audiofiles/emergency.mp3")
+    elif intent == "unclear":
+        play_audio_file("audiofiles/unclear_response.mp3")
 
 # Record the response from the user
-def record_audio(run_folder, filename="response.wav", duration=5, fs=44100):
+def record_audio(run_folder, filename="response.wav", duration=10, fs=44100):
     log_interaction("Starting audio recording", run_folder)
     print("Recording response...")
     audio = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
@@ -136,25 +135,47 @@ def main():
     
     prepare_audio_recording()
     
-    play_prompt()
-    audio_path = record_audio(run_folder)
-    transcribed = transcribe_audio(audio_path, run_folder)
-    intent = interpret_intent(transcribed, run_folder)
+    max_attempts = 3  # Maximum number of attempts for unclear responses
+    attempt = 0
+    
+    while attempt < max_attempts:
+        if attempt == 0:
+            play_prompt()
+            # First attempt: 6 seconds recording
+            audio_path = record_audio(run_folder, duration=6)
+        else:
+            log_interaction(f"Attempt {attempt + 1}: Asking again after unclear response", run_folder)
+            # Follow-up attempts: 10 seconds recording
+            audio_path = record_audio(run_folder, duration=10)
+        
+        transcribed = transcribe_audio(audio_path, run_folder)
+        intent = interpret_intent(transcribed, run_folder)
 
-    if intent == "ok":
-        log_interaction("Action: False alarm - No action needed", run_folder)
-        print("False alarm. No action needed.")
-        play_response_audio(intent)
-    elif intent == "not_ok":
-        log_interaction("Action: Emergency confirmed - Help needed", run_folder)
-        print("Emergency confirmed! Calling for help.")
-        play_response_audio(intent)
-        # Call emergency number
-        status_code = call_for_help()
-        log_interaction(f"Emergency call initiated with status code: {status_code}", run_folder)
-    else:
-        log_interaction("Action: Unclear response - Consider escalation", run_folder)
-        print("Unclear. Consider asking again or escalating.")
+        if intent == "ok":
+            log_interaction("Action: False alarm - No action needed", run_folder)
+            print("False alarm. No action needed.")
+            play_response_audio(intent)
+            break
+        elif intent == "not_ok":
+            log_interaction("Action: Emergency confirmed - Help needed", run_folder)
+            print("Emergency confirmed! Calling for help.")
+            play_response_audio(intent)
+            # Call emergency number
+            status_code = call_for_help()
+            log_interaction(f"Emergency call initiated with status code: {status_code}", run_folder)
+            break
+        else:  # unclear
+            log_interaction(f"Action: Unclear response on attempt {attempt + 1}", run_folder)
+            print(f"Unclear response. Attempt {attempt + 1} of {max_attempts}")
+            play_response_audio(intent)
+            attempt += 1
+            
+            if attempt >= max_attempts:
+                log_interaction("Action: Maximum attempts reached - Escalating to emergency", run_folder)
+                print("Maximum attempts reached. Escalating to emergency response.")
+                play_audio_file("audiofiles/emergency.mp3")
+                status_code = call_for_help()
+                log_interaction(f"Emergency call initiated with status code: {status_code}", run_folder)
     
     log_interaction("=== Interaction complete ===\n", run_folder)
 

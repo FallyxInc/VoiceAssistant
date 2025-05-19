@@ -1,0 +1,25 @@
+[2025-05-19 08:27:29] === Starting new interaction ===
+[2025-05-19 08:27:29] Starting audio recording
+[2025-05-19 08:27:34] Audio recording saved to runs/run_20250519_082729/response.wav
+[2025-05-19 08:27:34] Starting audio transcription
+[2025-05-19 08:27:36] Transcription: Hi. Resident name, did you fall down? What?
+[2025-05-19 08:27:36] Starting intent classification
+[2025-05-19 08:27:37] Detected intent: unclear
+[2025-05-19 08:27:37] Action: Unclear response on attempt 1
+[2025-05-19 08:27:37] Attempt 2: Asking again after unclear response
+[2025-05-19 08:27:37] Starting audio recording
+[2025-05-19 08:27:42] Audio recording saved to runs/run_20250519_082729/response.wav
+[2025-05-19 08:27:42] Starting audio transcription
+[2025-05-19 08:27:44] Transcription: I didn't quite understand. Could you please tell me if you fell down or not?
+[2025-05-19 08:27:44] Starting intent classification
+[2025-05-19 08:27:45] Detected intent: unclear
+[2025-05-19 08:27:45] Action: Unclear response on attempt 2
+[2025-05-19 08:27:45] Attempt 3: Asking again after unclear response
+[2025-05-19 08:27:45] Starting audio recording
+[2025-05-19 08:27:50] Audio recording saved to runs/run_20250519_082729/response.wav
+[2025-05-19 08:27:50] Starting audio transcription
+[2025-05-19 08:27:53] Transcription: I didn't quite understand. Could you please tell me if you felt...
+[2025-05-19 08:27:53] Starting intent classification
+[2025-05-19 08:27:54] Detected intent: unclear
+[2025-05-19 08:27:54] Action: Unclear response on attempt 3
+[2025-05-19 08:27:54] Action: Maximum attempts reached - Escalating to emergency

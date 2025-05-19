@@ -1,0 +1,8 @@
+[2025-05-19 08:28:16] === Starting new interaction ===
+[2025-05-19 08:28:16] Starting audio recording
+[2025-05-19 08:28:21] Audio recording saved to runs/run_20250519_082816/response.wav
+[2025-05-19 08:28:21] Starting audio transcription
+[2025-05-19 08:28:23] Transcription: Hi. Resident name, did you fall down? Yeah.
+[2025-05-19 08:28:23] Starting intent classification
+[2025-05-19 08:28:23] Detected intent: not_ok
+[2025-05-19 08:28:23] Action: Emergency confirmed - Help needed
