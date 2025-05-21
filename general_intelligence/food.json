@@ -1,0 +1,105 @@
+{
+    "week": "W1",
+    "days": {
+      "2025-05-20": {
+        "soup": "Creamy Carrot Ginger",
+        "lunch": {
+          "main_1": "Cobb Salad, with Tomato, Crispy Bacon, Boiled Eggs, Avocado, Blue Cheese and Ranch Dressing",
+          "main_2": "Tuna Casserole topped with Crunchy Herbed Breadcrumbs with Garden Salad"
+        },
+        "dessert_lunch": "Assorted Desserts",
+        "dinner": {
+          "main_1": "Chicken Au Gratin",
+          "main_2": "Slow Cooked Roasted Beef with Mushroom Cream Sauce",
+          "sides": "Mashed Potatoes, And Mixed Vegetables"
+        },
+        "dessert_dinner": "Chocolate Brownie"
+      },
+      "2025-05-21": {
+        "soup": "Minestrone",
+        "lunch": {
+          "main_1": "Beef Chili served with a Cornmeal Muffin",
+          "main_2": "Three Cheese Egg Omelet with Crispy Potato Wedges",
+          "note": "Both Served With Mixed Salad"
+        },
+        "dessert_lunch": "Assorted Desserts",
+        "dinner": {
+          "main_1": "Salmon Fillet with a Lemon Butter Sauce",
+          "main_2": "Pork Chop with Apple Sauce",
+          "sides": "Steamed Rice, Mixed Vegetables"
+        },
+        "dessert_dinner": "Tiramisu Mousse"
+      },
+      "2025-05-22": {
+        "soup": "Potato, Bacon & Cheddar",
+        "lunch": {
+          "main_1": "Crab Salad Plate with Cream Cheese, Crackers, and Grapes",
+          "main_2": "Mediterranean Wrap served with Garden Salad"
+        },
+        "dessert_lunch": "Carrot Cake",
+        "dinner": {
+          "main_1": "Baked Chicken Breast",
+          "main_2": "Salisbury Steak with Onion Gravy",
+          "sides": "Mashed Potato and Green Peas"
+        },
+        "dessert_dinner": "Butter Tart topped with Caramel Sauce"
+      },
+      "2025-05-23": {
+        "soup": "Harvest Vegetable",
+        "lunch": {
+          "main_1": "Turkey Club Sandwich with Dill Pickle Spear and Potato Salad",
+          "main_2": "Cottage Cheese Plate with A Scone, and Sliced Fruit"
+        },
+        "dessert_lunch": "Raspberry Mousse",
+        "dinner": {
+          "main_1": "Cod Filet with Red Pepper Sauce on Rice Pilaf",
+          "main_2": "Cabbage Roll",
+          "sides": "Mix Beans"
+        },
+        "dessert_dinner": "German Chocolate Cake"
+      },
+      "2025-05-24": {
+        "soup": "Cream of Leeks and Potato",
+        "lunch": {
+          "main_1": "Corn Beef Root Vegetable Hash w/ Fried Egg",
+          "main_2": "Chicken Caesar Salad with Garlic Bread"
+        },
+        "dessert_lunch": "Date Square",
+        "dinner": {
+          "main_1": "Spaghetti and Meatballs with Garlic Bread",
+          "main_2": "English Style Fish & Chips Served with Tartar Sauce and Coleslaw"
+        },
+        "dessert_dinner": "Strawberry Shortcake"
+      },
+      "2025-05-25": {
+        "soup": "Roasted Cauliflower with curry and Ginger",
+        "lunch": {
+          "main_1": "Eggs Benedict",
+          "main_2": "Roast Beef Sandwich, Horseradish Mayo, Lettuce and Tomato",
+          "note": "Both served with Mixed Baby Green Salad"
+        },
+        "dessert_lunch": "Mango Mousse Cake",
+        "dinner": {
+          "main_1": "Lamb Stew with Vegetable Served with Tea Biscuit",
+          "main_2": "Chicken Cordon Bleu with Basmati Rice and Mix Vegetables"
+        },
+        "dessert_dinner": "Bread Pudding"
+      },
+      "2025-05-26": {
+        "soup": "Cream of Mushroom",
+        "lunch": {
+          "main_1": "Chicken Cutlet On A Bun With Tomato, Lettuce, & Garlic Mayo",
+          "main_2": "Hawaiian Pizza",
+          "note": "Both Served with Cucumber Salad"
+        },
+        "dessert_lunch": "Chocolate Eclairs",
+        "dinner": {
+          "main_1": "Roast Turkey with Stuffing and Gravy, Served with Mashed Potato",
+          "main_2": "Seafood Alfredo with Fettuccini Pasta",
+          "note": "Both Served with Vegetable Medley"
+        },
+        "dessert_dinner": "Apple Pie with Vanilla Ice Cream"
+      }
+    }
+  }
+  

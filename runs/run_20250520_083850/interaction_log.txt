@@ -1,0 +1,4 @@
+[2025-05-20 08:38:50] Could not understand audio
+[2025-05-20 08:38:51] Heard: melon
+[2025-05-20 08:38:51] Wake word detected!
+[2025-05-20 08:38:51] Response: Hey, Rishi, how can I help you today?

@@ -1,0 +1,16 @@
+[2025-05-20 07:34:59] === Starting Melon Assistant ===
+[2025-05-20 07:34:59] Starting audio recording
+[2025-05-20 07:35:03] Audio recording saved to runs/run_20250520_073459/wake_word.wav
+[2025-05-20 07:35:03] Starting audio transcription
+[2025-05-20 07:35:04] Transcription: Hey, Melvin.
+[2025-05-20 07:35:05] Starting audio recording
+[2025-05-20 07:35:10] Audio recording saved to runs/run_20250520_073459/wake_word.wav
+[2025-05-20 07:35:10] Starting audio transcription
+[2025-05-20 07:35:12] Transcription: Thank you for watching.
+[2025-05-20 07:35:13] Starting audio recording
+[2025-05-20 07:35:17] Audio recording saved to runs/run_20250520_073459/wake_word.wav
+[2025-05-20 07:35:17] Starting audio transcription
+[2025-05-20 07:35:19] Transcription: No one.
+[2025-05-20 07:35:20] Starting audio recording
+[2025-05-20 07:35:23] === Melon Assistant Shutdown ===
+

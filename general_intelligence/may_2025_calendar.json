@@ -1,0 +1,172 @@
+{
+    "2025-05-20": {
+        "Day": "Wednesday",
+        "Events": [
+            {
+                "Time": "10:00",
+                "Name": "Drum Fit",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "10:45",
+                "Name": "Exercise class",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "14:00",
+                "Name": "Virtual Reality: Star Wars",
+                "Location": "Floor 2"
+            },
+            {
+                "Time": "14:15",
+                "Name": "Hymn Sing with Janice",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "15:30",
+                "Name": "Happy Hour",
+                "Location": "Floor 4"
+            },
+            {
+                "Time": "15:30",
+                "Name": "Chair Yoga w/ Linda",
+                "Location": "Floor 5"
+            },
+            {
+                "Time": "18:00",
+                "Name": "Trivia Night",
+                "Location": "Freds Bar"
+            }
+        ]
+    },
+    "2025-05-21": {
+        "Day": "Wednesday",
+        "Events": [
+            {
+                "Time": "10:00",
+                "Name": "Drum Fit",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "10:45",
+                "Name": "Exercise class",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "14:00",
+                "Name": "Virtual Reality: Star Wars",
+                "Location": "Floor 2"
+            },
+            {
+                "Time": "14:15",
+                "Name": "Hymn Sing with Janice",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "15:30",
+                "Name": "Happy Hour",
+                "Location": "Floor 4"
+            },
+            {
+                "Time": "15:30",
+                "Name": "Chair Yoga w/ Linda",
+                "Location": "Floor 5"
+            },
+            {
+                "Time": "18:00",
+                "Name": "Trivia Night",
+                "Location": "Freds Bar"
+            }
+        ]
+    },
+    "2025-05-22 ": {
+        "Day": "Thursday",
+        "Events": [
+            {
+                "Time": "09:30",
+                "Name": "Mass",
+                "Location": "Chapel"
+            },
+            {
+                "Time": "10:45",
+                "Name": "Exercise / Falls Prevention",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "11:00",
+                "Name": "VR Mindfulness",
+                "Location": "Chapel"
+            },
+            {
+                "Time": "14:15",
+                "Name": "Bingo",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "15:30",
+                "Name": "Sing Along with Kathy",
+                "Location": "Floor 2"
+            }
+        ]
+    },
+    "2025-05-23": {
+        "Day": "Friday",
+        "Events": [
+            {
+                "Time": "10:30",
+                "Name": "Seated Boxing",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "11:00",
+                "Name": "Friendly Visits",
+                "Location": ""
+            },
+            {
+                "Time": "14:15",
+                "Name": "Kentucky Derby Social",
+                "Location": "Trivia Room"
+            },
+            {
+                "Time": "15:30",
+                "Name": "Happy Hour",
+                "Location": "All Floors"
+            }
+        ]
+    },
+    "2025-05-24": {
+        "Day": "Saturday",
+        "Events": [
+            {
+                "Time": "09:30",
+                "Name": "Coronation Street",
+                "Location": "Floor 2"
+            },
+            {
+                "Time": "10:30",
+                "Name": "Tai Chi w/ Check",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "11:00",
+                "Name": "Friendly Visits",
+                "Location": ""
+            },
+            {
+                "Time": "14:15",
+                "Name": "Movie Matinee: The Shaggy Dog",
+                "Location": "Auditorium"
+            },
+            {
+                "Time": "15:00",
+                "Name": "Arts & Crafts",
+                "Location": "Library"
+            },
+            {
+                "Time": "16:00",
+                "Name": "Mass",
+                "Location": "Chapel"
+            }
+        ]
+    }
+}

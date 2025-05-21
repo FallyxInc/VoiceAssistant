@@ -1,0 +1,6 @@
+SpeechRecognition==3.10.0
+openai>=1.0.0
+python-dotenv==1.0.0
+PyAudio==0.2.13
+requests
+playsound
