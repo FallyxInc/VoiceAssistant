@@ -402,8 +402,44 @@ def detect_wake_word(text):
     """Return True if the wake word is detected in the text."""
     if not text:
         return False
-    wake_words = ["woolly", "hey woolly", "wolly", "hey wolly", "wooly", "hey wooly", "hey willie", "hey willy"]
-    return any(wake_word in text.lower() for wake_word in wake_words)
+    
+    # Normalize the text by removing punctuation and converting to lowercase
+    text = text.lower().replace('.', '').replace(',', '').replace('!', '').replace('?', '')
+    
+    # List of possible wake word variations
+    wake_words = [
+        "woolly", "hey woolly",
+        "wolly", "hey wolly",
+        "wooly", "hey wooly",
+        "willy", "hey willy",
+        "willie", "hey willie",
+        "wally", "hey wally",
+        "olly", "hey olly",
+        "wollie", "hey wollie",
+        "wolli", "hey wolli",
+        "woli", "hey woli",
+        "woll", "hey woll"
+    ]
+    
+    # Check for exact matches
+    if any(wake_word in text for wake_word in wake_words):
+        return True
+    
+    # Check for similar pronunciations using common mishearings
+    similar_words = {
+        "woolly": ["willy", "wally", "olly", "wollie", "wolli", "woli", "woll"],
+        "wolly": ["willy", "wally", "olly", "wollie", "wolli", "woli", "woll"],
+        "wooly": ["willy", "wally", "olly", "wollie", "wolli", "woli", "woll"]
+    }
+    
+    # Check if any part of the text contains a similar word
+    words = text.split()
+    for word in words:
+        for base_word, variations in similar_words.items():
+            if word in variations:
+                return True
+    
+    return False
 
 def main():
     # Check for FLAC installation first
