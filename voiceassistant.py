@@ -1,7 +1,4 @@
 import openai
-import sounddevice as sd
-import numpy as np
-from scipy.io.wavfile import write
 import os
 import time
 import threading
@@ -60,10 +57,17 @@ def play_response_audio(intent):
 def record_audio(run_folder, filename="response.wav", duration=10, fs=44100):
     log_interaction("Starting audio recording", run_folder)
     print("Recording response...")
-    audio = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
-    sd.wait()
+    
+    # Use arecord with specific device for Orange Pi
     output_path = os.path.join(run_folder, filename)
-    write(output_path, fs, audio)
+    subprocess.run([
+        "arecord",
+        "-D", "plughw:3,0",
+        "-f", "cd",
+        "-d", str(duration),
+        output_path
+    ])
+    
     log_interaction(f"Audio recording saved to {output_path}", run_folder)
     print("Recording complete.")
     return output_path
