@@ -465,7 +465,7 @@ def main():
             print("Listening for wake word...")
             heard = listen_for_response()
             if detect_wake_word(heard):
-                speak("Hello! I'm Woolly. How can I help you today?")
+                speak("Hello! I'm Woolly, a general intellgience system to help you with anything. How can I help you today?")
                 handle_conversation()
                 time.sleep(1)  # Small delay to prevent multiple triggers
     except KeyboardInterrupt:
