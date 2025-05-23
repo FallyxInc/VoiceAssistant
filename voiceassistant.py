@@ -27,11 +27,6 @@ def log_interaction(message, run_folder):
     with open(log_file, "a") as f:
         f.write(f"[{timestamp}] {message}\n")
 
-def prepare_audio_recording(fs=44100):
-    sd.default.samplerate = fs
-    sd.default.channels = 1
-    sd.default.dtype = 'int16'
-
 def play_audio_file(output_file):
     def play_audio():
         if os.name == 'posix':
@@ -138,8 +133,6 @@ def main():
     # Create a new folder for this run
     run_folder = create_run_folder()
     log_interaction("=== Starting new interaction ===", run_folder)
-    
-    prepare_audio_recording()
     
     max_attempts = 3  # Maximum number of attempts for unclear responses
     attempt = 0
