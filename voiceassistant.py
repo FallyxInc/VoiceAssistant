@@ -45,16 +45,16 @@ def play_audio_file(output_file):
     
     threading.Thread(target=play_audio).start()
 
-def play_prompt(output_file="audiofiles/prompt.mp3"):
+def play_prompt(output_file="audiofiles/prompt.wav"):
     play_audio_file(output_file)
 
 def play_response_audio(intent):
     if intent == "ok":
-        play_audio_file("audiofiles/false_alarm.mp3")
+        play_audio_file("audiofiles/false_alarm.wav")
     elif intent == "not_ok":
-        play_audio_file("audiofiles/emergency.mp3")
+        play_audio_file("audiofiles/emergency.wav")
     elif intent == "unclear":
-        play_audio_file("audiofiles/unclear_response.mp3")
+        play_audio_file("audiofiles/unclear_response.wav")
 
 # Record the response from the user
 def record_audio(run_folder, filename="response.wav", duration=10, fs=44100):
@@ -175,7 +175,7 @@ def main():
             if attempt >= max_attempts:
                 log_interaction("Action: Maximum attempts reached - Escalating to emergency", run_folder)
                 print("Maximum attempts reached. Escalating to emergency response.")
-                play_audio_file("audiofiles/emergency.mp3")
+                play_audio_file("audiofiles/emergency.wav")
                 status_code = call_for_help()
                 log_interaction(f"Emergency call initiated with status code: {status_code}", run_folder)
     

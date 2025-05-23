@@ -69,15 +69,33 @@ def speak(text):
             voice="onyx",
             input=text
         )
-        temp_file = "temp_speech.mp3"
-        with open(temp_file, 'wb') as f:
+        # Save as MP3 first (required by OpenAI)
+        temp_mp3 = "temp_speech.mp3"
+        temp_wav = "temp_speech.wav"
+        
+        with open(temp_mp3, 'wb') as f:
             for chunk in response.iter_bytes():
                 f.write(chunk)
-        play_audio_file(temp_file)  # This will block until audio is done
+        
+        # Convert MP3 to WAV using ffmpeg
+        subprocess.run(['ffmpeg', '-i', temp_mp3, '-y', temp_wav], 
+                      stdout=subprocess.DEVNULL, 
+                      stderr=subprocess.DEVNULL)
+        
+        # Play the WAV file
+        if os.name == 'posix':
+            # Use aplay with specific device output for Orange Pi
+            subprocess.run(["aplay", "-D", "plughw:3,0", temp_wav])
+        else:
+            os.system(f"start {temp_wav}")
+        
+        # Clean up temporary files
         try:
-            os.remove(temp_file)
+            os.remove(temp_mp3)
+            os.remove(temp_wav)
         except:
             pass
+            
     except Exception as e:
         print(f"Error in text-to-speech: {e}")
 
