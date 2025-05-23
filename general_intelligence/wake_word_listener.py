@@ -402,7 +402,7 @@ def detect_wake_word(text):
     """Return True if the wake word is detected in the text."""
     if not text:
         return False
-    wake_words = ["woolly", "hey woolly", "wolly", "hey wolly", "wooly", "hey wooly"]
+    wake_words = ["woolly", "hey woolly", "wolly", "hey wolly", "wooly", "hey wooly", "hey willie", "hey willy"]
     return any(wake_word in text.lower() for wake_word in wake_words)
 
 def main():
