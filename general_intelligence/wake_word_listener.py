@@ -12,36 +12,16 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import threading
 import queue
-import logging
-
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('wake_word_listener.log'),
-        logging.StreamHandler()
-    ]
-)
 
 # Load environment variables from .env file
 load_dotenv()
 
 is_speaking = False
 
-def log_operation(operation, details=None):
-    """Log an operation with timing information"""
-    if details:
-        logging.info(f"{operation}: {details}")
-    else:
-        logging.info(operation)
-
 def initialize_openai():
     """Initialize OpenAI client with API key"""
-    log_operation("Initializing OpenAI client")
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
-        logging.error("OPENAI_API_KEY not found in .env file or environment variables.")
         print("Error: OPENAI_API_KEY not found in .env file or environment variables.")
         print("Please create a .env file with your OpenAI API key:")
         print("OPENAI_API_KEY=your-api-key-here")
@@ -51,9 +31,7 @@ def initialize_openai():
 # Initialize OpenAI client
 try:
     client = initialize_openai()
-    log_operation("OpenAI client initialized successfully")
 except Exception as e:
-    logging.error(f"Error initializing OpenAI client: {e}")
     print(f"Error initializing OpenAI client: {e}")
     sys.exit(1)
 
@@ -77,69 +55,45 @@ def play_audio_file(output_file):
 
 def speak(text):
     """Convert text to speech using OpenAI's TTS with Onyx voice, synchronously."""
-    start_time = time.time()
-    log_operation("Starting text-to-speech conversion", f"Text: {text[:50]}...")
-    
     try:
-        # Generate speech
-        tts_start = time.time()
         response = client.audio.speech.create(
             model="tts-1",
             voice="onyx",
             input=text
         )
-        tts_time = time.time() - tts_start
-        log_operation("TTS generation completed", f"Time taken: {tts_time:.2f}s")
-        
         # Save as MP3 first (required by OpenAI)
         temp_mp3 = "temp_speech.mp3"
         temp_wav = "temp_speech.wav"
         
-        # Save MP3
-        save_start = time.time()
         with open(temp_mp3, 'wb') as f:
             for chunk in response.iter_bytes():
                 f.write(chunk)
-        save_time = time.time() - save_start
-        log_operation("MP3 file saved", f"Time taken: {save_time:.2f}s")
         
         # Convert MP3 to WAV using ffmpeg
-        convert_start = time.time()
         subprocess.run(['ffmpeg', '-i', temp_mp3, '-y', temp_wav], 
                       stdout=subprocess.DEVNULL, 
                       stderr=subprocess.DEVNULL)
-        convert_time = time.time() - convert_start
-        log_operation("MP3 to WAV conversion completed", f"Time taken: {convert_time:.2f}s")
         
         # Play the WAV file using the specific device
-        play_start = time.time()
         if os.name == 'posix':
+            # Use aplay with specific device output for Orange Pi
             subprocess.run(["aplay", "-D", "plughw:3,0", temp_wav])
         else:
             os.system(f"start {temp_wav}")
-        play_time = time.time() - play_start
-        log_operation("Audio playback completed", f"Time taken: {play_time:.2f}s")
         
         # Clean up temporary files
         try:
             os.remove(temp_mp3)
             os.remove(temp_wav)
-            log_operation("Temporary files cleaned up")
         except:
-            log_operation("Warning: Failed to clean up temporary files")
-            
-        total_time = time.time() - start_time
-        log_operation("Text-to-speech process completed", 
-                     f"Total time: {total_time:.2f}s (TTS: {tts_time:.2f}s, Save: {save_time:.2f}s, Convert: {convert_time:.2f}s, Play: {play_time:.2f}s)")
+            pass
             
     except Exception as e:
-        logging.error(f"Error in text-to-speech: {e}")
         print(f"Error in text-to-speech: {e}")
 
 def record_audio(duration=2, fs=44100):
     """Record audio from microphone"""
-    start_time = time.time()
-    log_operation("Starting audio recording", f"Duration: {duration}s")
+    print("Recording...")
     
     # Use arecord with specific device for Orange Pi
     temp_file = "temp_recording.wav"
@@ -151,56 +105,41 @@ def record_audio(duration=2, fs=44100):
         temp_file
     ])
     
-    record_time = time.time() - start_time
-    log_operation("Audio recording completed", f"Time taken: {record_time:.2f}s")
     return temp_file
 
 def transcribe_audio(audio_path):
     """Transcribe audio using OpenAI's Whisper"""
-    start_time = time.time()
-    log_operation("Starting audio transcription")
-    
     try:
         with open(audio_path, "rb") as f:
             transcript = client.audio.transcriptions.create(
                 model="whisper-1",
                 file=f
             )
-        transcribe_time = time.time() - start_time
-        log_operation("Transcription completed", 
-                     f"Time taken: {transcribe_time:.2f}s, Text: {transcript.text[:50]}...")
         return transcript.text
     except Exception as e:
-        logging.error(f"Error transcribing audio: {e}")
+        print(f"Error transcribing audio: {e}")
         return None
     finally:
         # Clean up the temporary file
         try:
             os.remove(audio_path)
-            log_operation("Temporary audio file cleaned up")
         except:
-            log_operation("Warning: Failed to clean up temporary audio file")
+            pass
 
 def listen_for_response():
     """Listen for user's response and convert to text"""
-    start_time = time.time()
-    log_operation("Starting response listening")
-    
     global is_speaking
     while is_speaking:
         time.sleep(0.1)  # Wait until not speaking
-    
     audio_path = record_audio(duration=5)
     if not audio_path:
-        log_operation("No audio recorded")
         return None
-    
     try:
         text = transcribe_audio(audio_path)
-        log_operation("Response processed", f"Heard: {text}")
+        print(f"[Heard]: {text}")
         return text
     except Exception as e:
-        logging.error(f"Error in response detection: {e}")
+        print(f"Error in response detection: {e}")
         return None
 
 def get_weather():
@@ -518,25 +457,20 @@ def main():
     if not check_flac_installation():
         return
 
-    log_operation("=== Starting Wake Word Listener ===")
     print("Initializing wake word listener...")
     print("Wake word listener started. Say 'Woolly' or 'Hey Woolly' to activate.")
     
     try:
         while True:
-            log_operation("Listening for wake word...")
             print("Listening for wake word...")
             heard = listen_for_response()
             if detect_wake_word(heard):
-                log_operation("Wake word detected", f"Heard: {heard}")
                 speak("Hello! I'm Woolly. How can I help you today?")
                 handle_conversation()
                 time.sleep(1)  # Small delay to prevent multiple triggers
     except KeyboardInterrupt:
-        log_operation("Wake word listener stopped by user")
         print("\nWake word listener stopped.")
     except Exception as e:
-        logging.error(f"An error occurred: {e}")
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
