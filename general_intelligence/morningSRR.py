@@ -25,13 +25,44 @@ def play_audio_file(output_file):
 
 def speak(message):
     """Convert text to speech using OpenAI TTS and play it back"""
-    speech_response = client.audio.speech.create(
-        model="tts-1",
-        voice="nova",
-        input=message
-    )
-    speech_response.stream_to_file("morning_announcement.wav")
-    play_audio_file("morning_announcement.wav")
+    try:
+        # Generate speech and save as MP3 first (required by OpenAI)
+        temp_mp3 = "temp_speech.mp3"
+        temp_wav = "morning_announcement.wav"
+        
+        response = client.audio.speech.create(
+            model="tts-1",
+            voice="nova",
+            input=message
+        )
+        
+        # Save the response content to MP3
+        with open(temp_mp3, "wb") as f:
+            for chunk in response.iter_bytes():
+                f.write(chunk)
+        
+        # Convert MP3 to WAV with specific format for Respeaker
+        subprocess.run([
+            'ffmpeg', 
+            '-i', temp_mp3,
+            '-acodec', 'pcm_s16le',  # Use signed 16-bit PCM
+            '-ar', '16000',          # Set sample rate to 16kHz
+            '-ac', '1',              # Set to mono
+            '-y',                    # Overwrite output file
+            temp_wav
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        
+        # Play the WAV file using aplay with specific device
+        subprocess.run(["aplay", "-D", "plughw:3,0", temp_wav])
+        
+        # Clean up temporary files
+        try:
+            os.remove(temp_mp3)
+        except:
+            pass
+        
+    except Exception as e:
+        print(f"Error in text-to-speech: {e}")
 
 def get_ordinal(n):
     # Returns the ordinal string for a given integer n (e.g., 1 -> '1st')
