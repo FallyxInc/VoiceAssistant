@@ -3,7 +3,8 @@ from openai import OpenAI
 import os
 import requests
 from dotenv import load_dotenv
-from playsound import playsound
+import subprocess
+import threading
 
 # Load environment variables
 load_dotenv()
@@ -13,6 +14,16 @@ client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 EMERGENCYNUMBER = os.getenv('EMERGENCYNUMBER')  # Set your emergency number here or in .env
 
+def play_audio_file(output_file):
+    def play_audio():
+        if os.name == 'posix':
+            # Use aplay with specific device output for Orange Pi
+            subprocess.run(["aplay", "-D", "plughw:3,0", output_file])
+        else:
+            os.system(f"start {output_file}")
+    
+    threading.Thread(target=play_audio).start()
+
 def speak_response(response):
     """Convert text response to speech using OpenAI TTS and play it back"""
     speech_response = client.audio.speech.create(
@@ -20,8 +31,8 @@ def speak_response(response):
         voice="nova",
         input=response
     )
-    speech_response.stream_to_file("response.mp3")
-    playsound("response.mp3")
+    speech_response.stream_to_file("response.wav")
+    play_audio_file("response.wav")
 
 def call_for_help():
     url = "https://724cu8r3wk.execute-api.ca-central-1.amazonaws.com/Prod/outcall"
@@ -41,8 +52,8 @@ def call_for_help():
         voice="nova",
         input=reassurance
     )
-    speech_response.stream_to_file("emergency.mp3")
-    playsound("emergency.mp3")
+    speech_response.stream_to_file("emergency.wav")
+    play_audio_file("emergency.wav")
 
 def listen_to_speech():
     """Listen to user's speech and convert to text"""

@@ -1,6 +1,22 @@
-SpeechRecognition==3.10.0
+# Core dependencies
+pydantic-ai>=0.0.1
 openai>=1.0.0
 python-dotenv==1.0.0
+requests>=2.25.1
+
+# Audio processing
+sounddevice>=0.4.6
+scipy>=1.7.0
+numpy>=1.21.0
+
+# Wake word detection
+pvporcupine>=3.0.0
+
+# Existing dependencies
+SpeechRecognition==3.10.0
 PyAudio==0.2.13
-requests
 playsound
+
+# Additional utilities
+asyncio-mqtt>=0.13.0
+paho-mqtt>=1.6.0

@@ -2,10 +2,36 @@ import datetime
 import json
 import sys
 import os
+import subprocess
+import threading
+from openai import OpenAI
+from dotenv import load_dotenv
 
-# Import speak from wake_word_listener.py
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from wake_word_listener import speak
+# Load environment variables
+load_dotenv()
+
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+def play_audio_file(output_file):
+    def play_audio():
+        if os.name == 'posix':
+            # Use aplay with specific device output for Orange Pi
+            subprocess.run(["aplay", "-D", "plughw:3,0", output_file])
+        else:
+            os.system(f"start {output_file}")
+    
+    threading.Thread(target=play_audio).start()
+
+def speak(message):
+    """Convert text to speech using OpenAI TTS and play it back"""
+    speech_response = client.audio.speech.create(
+        model="tts-1",
+        voice="nova",
+        input=message
+    )
+    speech_response.stream_to_file("morning_announcement.wav")
+    play_audio_file("morning_announcement.wav")
 
 def get_ordinal(n):
     # Returns the ordinal string for a given integer n (e.g., 1 -> '1st')

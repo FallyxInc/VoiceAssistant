@@ -8,6 +8,7 @@ import threading
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
+import subprocess
 
 load_dotenv() 
 
@@ -37,7 +38,8 @@ def prepare_audio_recording(fs=44100):
 def play_audio_file(output_file):
     def play_audio():
         if os.name == 'posix':
-            os.system(f"afplay {output_file}")
+            # Use aplay with specific device output for Orange Pi
+            subprocess.run(["aplay", "-D", "plughw:3,0", output_file])
         else:
             os.system(f"start {output_file}")
     
