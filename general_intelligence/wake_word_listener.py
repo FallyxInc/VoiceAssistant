@@ -11,9 +11,6 @@ import json
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import threading
-import sounddevice as sd
-import numpy as np
-from scipy.io.wavfile import write
 import queue
 
 # Load environment variables from .env file
@@ -48,12 +45,6 @@ def check_flac_installation():
         print("brew install flac")
         return False
 
-def prepare_audio_recording(fs=44100):
-    """Prepare audio recording settings"""
-    sd.default.samplerate = fs
-    sd.default.channels = 1
-    sd.default.dtype = 'int16'
-
 def play_audio_file(output_file):
     """Play audio file synchronously (waits until done)."""
     if os.name == 'posix':
@@ -83,7 +74,7 @@ def speak(text):
                       stdout=subprocess.DEVNULL, 
                       stderr=subprocess.DEVNULL)
         
-        # Play the WAV file
+        # Play the WAV file using the specific device
         if os.name == 'posix':
             # Use aplay with specific device output for Orange Pi
             subprocess.run(["aplay", "-D", "plughw:3,0", temp_wav])
@@ -103,12 +94,17 @@ def speak(text):
 def record_audio(duration=2, fs=44100):
     """Record audio from microphone"""
     print("Recording...")
-    audio = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
-    sd.wait()
     
-    # Save to temporary file
+    # Use arecord with specific device for Orange Pi
     temp_file = "temp_recording.wav"
-    write(temp_file, fs, audio)
+    subprocess.run([
+        "arecord",
+        "-D", "plughw:3,0",
+        "-f", "cd",
+        "-d", str(duration),
+        temp_file
+    ])
+    
     return temp_file
 
 def transcribe_audio(audio_path):
@@ -406,7 +402,7 @@ def detect_wake_word(text):
     """Return True if the wake word is detected in the text."""
     if not text:
         return False
-    wake_words = ["melon", "mellon", "hey melon", "hey mellon"]
+    wake_words = ["woolly", "hey woolly", "wolly", "hey wolly", "wooly", "hey wooly"]
     return any(wake_word in text.lower() for wake_word in wake_words)
 
 def main():
@@ -414,18 +410,15 @@ def main():
     if not check_flac_installation():
         return
 
-    # Prepare audio recording settings
-    prepare_audio_recording()
-
     print("Initializing wake word listener...")
-    print("Wake word listener started. Say 'melon' or 'hey melon' to activate.")
+    print("Wake word listener started. Say 'Woolly' or 'Hey Woolly' to activate.")
     
     try:
         while True:
             print("Listening for wake word...")
             heard = listen_for_response()
             if detect_wake_word(heard):
-                speak("I'm listening. How can I help you?")
+                speak("Hello! I'm Woolly. How can I help you today?")
                 handle_conversation()
                 time.sleep(1)  # Small delay to prevent multiple triggers
     except KeyboardInterrupt:
