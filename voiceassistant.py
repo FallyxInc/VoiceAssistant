@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import subprocess
 
 load_dotenv() 
-
+EMERGENCYNUMBER = "+14166299094"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def create_run_folder():

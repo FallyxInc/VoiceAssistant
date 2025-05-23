@@ -239,26 +239,31 @@ def get_todays_schedule():
             day_of_week = day_info.get('Day', '')
             events = day_info.get('Events', [])
             if not events:
-                return f"Today is {day_of_week}. It is {month} {day}, {year}. There are no scheduled events."
-            response = f"Today is {day_of_week}. It is {month} {day}, {year}. The events are: "
+                return f"Today is {day_of_week}, {month} {day}, {year}. There are no scheduled events for today."
+            
+            response = f"Today is {day_of_week}, {month} {day}, {year}. Here's what's on your schedule: "
             event_lines = []
-            for event in events:
+            for i, event in enumerate(events):
                 time = event.get('Time', '').strip()
                 name = event.get('Name', '').strip()
                 location = event.get('Location', '').strip()
+                
                 line = ""
                 if time:
-                    line += f"At {time} "
+                    line += f"At {time}, "
                 if name:
-                    line += f"there is {name}"
+                    line += f"you have {name}"
                 if location:
                     line += f" in the {location}"
                 if line:
+                    if i == len(events) - 1:
+                        line = f"and {line}"
                     event_lines.append(line)
-            response += ". ".join(event_lines)
+            
+            response += ", ".join(event_lines) + "."
             return response
         else:
-            return f"It is {month} {day}, {year}. There is no schedule found for today."
+            return f"It's {month} {day}, {year}. There is no schedule found for today."
     except Exception as e:
         return f"I'm sorry, I couldn't retrieve today's schedule: {str(e)}"
 
@@ -271,37 +276,43 @@ def get_todays_menu():
             food_data = json.load(f)
         if today in food_data['days']:
             menu = food_data['days'][today]
-            response = f"Here's today's menu: "
+            response = "Here's what's on the menu for today: "
             
             # Add soup
             if 'soup' in menu:
-                response += f"\nFor soup, we have {menu['soup']}."
+                response += f"\nFor soup, we're serving {menu['soup']}."
             
             # Add lunch
             if 'lunch' in menu:
-                response += "\nFor lunch:"
+                response += "\nFor lunch, "
+                lunch_items = []
                 if 'main_1' in menu['lunch']:
-                    response += f"\n- {menu['lunch']['main_1']}"
+                    lunch_items.append(menu['lunch']['main_1'])
                 if 'main_2' in menu['lunch']:
-                    response += f"\n- {menu['lunch']['main_2']}"
+                    lunch_items.append(f"or you can have {menu['lunch']['main_2']}")
+                if lunch_items:
+                    response += " ".join(lunch_items)
                 if 'note' in menu['lunch']:
                     response += f"\nNote: {menu['lunch']['note']}"
                 if 'dessert_lunch' in menu:
-                    response += f"\nDessert: {menu['dessert_lunch']}"
+                    response += f"\nFor dessert, we have {menu['dessert_lunch']}"
             
             # Add dinner
             if 'dinner' in menu:
-                response += "\nFor dinner:"
+                response += "\nFor dinner, "
+                dinner_items = []
                 if 'main_1' in menu['dinner']:
-                    response += f"\n- {menu['dinner']['main_1']}"
+                    dinner_items.append(menu['dinner']['main_1'])
                 if 'main_2' in menu['dinner']:
-                    response += f"\n- {menu['dinner']['main_2']}"
+                    dinner_items.append(f"or you can have {menu['dinner']['main_2']}")
+                if dinner_items:
+                    response += " ".join(dinner_items)
                 if 'sides' in menu['dinner']:
-                    response += f"\nSides: {menu['dinner']['sides']}"
+                    response += f"\nThe sides include {menu['dinner']['sides']}"
                 if 'note' in menu['dinner']:
                     response += f"\nNote: {menu['dinner']['note']}"
                 if 'dessert_dinner' in menu:
-                    response += f"\nDessert: {menu['dessert_dinner']}"
+                    response += f"\nFor dessert, we have {menu['dessert_dinner']}"
             
             return response
         else:
