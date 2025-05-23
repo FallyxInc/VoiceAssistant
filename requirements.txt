@@ -15,7 +15,6 @@ pvporcupine>=3.0.0
 # Existing dependencies
 SpeechRecognition==3.10.0
 PyAudio==0.2.13
-playsound
 
 # Additional utilities
 asyncio-mqtt>=0.13.0

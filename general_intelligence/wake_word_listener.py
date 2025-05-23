@@ -57,7 +57,8 @@ def prepare_audio_recording(fs=44100):
 def play_audio_file(output_file):
     """Play audio file synchronously (waits until done)."""
     if os.name == 'posix':
-        os.system(f"afplay {output_file}")
+        # Use aplay with specific device output for Orange Pi
+        subprocess.run(["aplay", "-D", "plughw:3,0", output_file])
     else:
         os.system(f"start {output_file}")
 
